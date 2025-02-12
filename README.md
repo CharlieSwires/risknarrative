@@ -174,4 +174,4 @@ Example: curl -s -H 'x-api-key: xxxxxxxxxxxxx' "https://exercise.trunarrative.cl
 
 ## Flow
 
-![Wireframe](https://raw.githubusercontent.com/TruNarrative/spring-exercise/main/spring_exercise.png)
+![Wireframe](https://github.com/CharlieSwires/risknarrative/blob/master/spring_exercise.png)
