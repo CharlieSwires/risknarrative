@@ -593,57 +593,58 @@ class CompanyIntegrationTest {
 		assertThat(response.getItems().get(0).getCompanyNumber()).isEqualTo("06500244");
 		assertThat(response.getItems().get(0).getTitle()).isEqualTo("BBC LIMITED");
 	}
-//	@Test
-//	void testSearchCompanyProper() {
-//		//System.out.println("------"+response.toString());
-//		CompanyResponse response = webClient.post()
-//				.uri(uriBuilder -> uriBuilder.path(BASE_URL+"/api/company/search-proper")
-//						.queryParam("onlyActive", "true")
-//						.build())
-//				.header("x-api-key", apiKey)
-//				.header("Content-Type", "application/json")  
-//				.bodyValue("{\"companyName\": \"BBC LIMITED\"}")
-//				.retrieve()
-//	            .bodyToMono(CompanyResponse.class) 
-//	            .block();
-//		//System.out.println("+++++++"+response.toString());
-//
-//		// 🔹 Ensure response is not null
-//		assertThat(response).isNotNull();
-//
-//		// 🔹 Check total results count
-//		assertThat(response.getTotalResults()).isEqualTo(1);
-//
-//		// 🔹 Check first company's details
-//		assertThat(response.getItems()).isNotEmpty();
-//		assertThat(response.getItems().get(0).getCompanyNumber()).isEqualTo("06500244");
-//		assertThat(response.getItems().get(0).getTitle()).isEqualTo("BBC LIMITED");
-//	}
-//	@Test
-//	void testSearchCompanyByNumberProper() {
-//		CompanyResponse response = webClient.post()
-//				.uri(uriBuilder -> uriBuilder.path(BASE_URL+"/api/company/search-proper")
-//						.queryParam("onlyActive", "true")
-//						.build())
-//				.header("x-api-key", apiKey)
-//				.header("Content-Type", "application/json")  
-//				.bodyValue("{\"companyNumber\": \"06500244\"}")
-//				.retrieve()
-//	            .bodyToMono(CompanyResponse.class) 
-//	            .block();
-//		//System.out.println("+++++++"+response.toString());
-//
-//		// 🔹 Ensure response is not null
-//		assertThat(response).isNotNull();
-//
-//		// 🔹 Check total results count
-//		assertThat(response.getTotalResults()).isEqualTo(1);
-//
-//		// 🔹 Check first company's details
-//		assertThat(response.getItems()).isNotEmpty();
-//		assertThat(response.getItems().get(0).getCompanyNumber()).isEqualTo("06500244");
-//		assertThat(response.getItems().get(0).getTitle()).isEqualTo("BBC LIMITED");
-//	}	
+	@Test
+	void testSearchCompanyProper() {
+		CompanyResponse response = webTestClient.post()
+				.uri(uriBuilder -> uriBuilder.path("/api/company/search-proper")
+						.queryParam("onlyActive", "true")
+						.build())
+				.header("x-api-key", apiKey)
+				.header("Content-Type", "application/json")  
+				.bodyValue("{\"companyName\": \"BBC LIMITED\"}")
+				.exchange()
+				.expectStatus().isOk()
+				.expectBody(CompanyResponse.class)
+				.returnResult()
+				.getResponseBody();
+		//System.out.println("+++++++"+response.toString());
+
+		// 🔹 Ensure response is not null
+		assertThat(response).isNotNull();
+
+		// 🔹 Check total results count
+		assertThat(response.getTotalResults()).isEqualTo(20);
+
+		// 🔹 Check first company's details
+		assertThat(response.getItems()).isNotEmpty();
+		assertThat(response.getItems().get(0).getCompanyNumber()).isEqualTo("06500244");
+		assertThat(response.getItems().get(0).getTitle()).isEqualTo("BBC LIMITED");
+	}
+	@Test
+	void testSearchCompanyByNumberProper() {
+		CompanyResponse response = webTestClient.post()
+				.uri(uriBuilder -> uriBuilder.path("/api/company/search-proper")
+						.queryParam("onlyActive", "true")
+						.build())
+				.header("x-api-key", apiKey)
+				.header("Content-Type", "application/json")  
+				.bodyValue("{\"companyNumber\": \"06500244\"}")
+				.exchange()
+				.expectStatus().isOk()
+				.expectBody(CompanyResponse.class)
+				.returnResult()
+				.getResponseBody();
+		//System.out.println("+++++++"+response.toString());
+
+		// 🔹 Ensure response is not null
+		assertThat(response).isNotNull();
+
+		// 🔹 Check total results count
+		assertThat(response.getTotalResults()).isEqualTo(4);
+
+		// 🔹 Check first company's details
+		assertThat(response.getItems()).isNotEmpty();
+	}	
 //
 //	@Test
 //	void testSearchCompanyByConflictProper() {
