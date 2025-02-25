@@ -202,6 +202,8 @@ class OfficerDetails {
     private String officerRole;
     @JsonProperty("appointed_on")
     private String appointedOn;
+    @JsonProperty("resigned_on")
+    private String resignedOn;
     private AddressDetails address;
 	public String getName() {
 		return name;
@@ -230,6 +232,14 @@ class OfficerDetails {
 	@Override
 	public String toString() {
 		return "OfficerDetails [name=" + name + ", officerRole=" + officerRole + ", appointedOn=" + appointedOn
-				+ ", address=" + address + "]";
+				+ ", resignedOn=" + resignedOn + ", address=" + address + "]";
+	}
+	public void setResignedOn(String resignedOn) {
+		this.resignedOn = resignedOn;
+		
+	}	
+	public String getResignedOn() {
+		return this.resignedOn;
+		
 	}
 }

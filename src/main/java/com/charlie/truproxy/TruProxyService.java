@@ -77,8 +77,45 @@ public class TruProxyService {
 		}
 
 		//System.out.println(company.toString());
-		return new CompanyResponse();
+		return companyEntityToResponse(company);
 
+	}
+	private CompanyResponse companyEntityToResponse(CompanyEntity company) {
+		CompanyResponse response = new CompanyResponse();
+		List<CompanyDetails> details = new ArrayList<>();
+		List<OfficerDetails> officers = new ArrayList<>();
+		for (OfficerEntity item : company.getOfficers()) {
+			OfficerDetails officer = new OfficerDetails();
+			if (item.getAddress() != null) {
+				officer.setAddress(new AddressDetails(item.getAddress().getLocality(), 
+						item.getAddress().getPostalCode(), 
+						item.getAddress().getPremises(), 
+						item.getAddress().getAddressLine1(), 
+						item.getAddress().getCountry()));
+			} else {
+				officer.setAddress(null);
+			}
+			officer.setAppointedOn(item.getAppointedOn());
+			officer.setName(item.getName());
+			officer.setOfficerRole(item.getOfficerRole());
+			officer.setResignedOn(item.getResignedOn());
+			officers.add(officer);
+		}
+		CompanyDetails comp = new CompanyDetails();
+		comp.setAddress(new AddressDetails(company.getAddress().getLocality(), 
+				company.getAddress().getPostalCode(), company.getAddress().getPremises(), 
+				company.getAddress().getAddressLine1(), company.getAddress().getCountry()));
+		comp.setCompanyNumber(company.getCompanyNumber());
+		comp.setCompanyStatus(company.getCompanyStatus());
+		comp.setCompanyType(company.getCompanyType());
+		comp.setDateOfCreation(company.getDateOfCreation());
+		comp.setTitle(company.getTitle());
+		comp.setOfficers(officers);
+		details.add(comp);
+		response.setTotalResults(details.size());
+		response.setItems(details);
+
+		return response;
 	}
 	public CompanyResponse searchCompany(CompanySearchRequest request, String apiKey, boolean onlyActive) {
 	    String url = request.getCompanyNumber() != null ? 
@@ -131,13 +168,13 @@ public class TruProxyService {
 				for (OfficerEntity officer: os) {
 					OfficerDetails o = new OfficerDetails();
 					if (officer.getAddress() != null) {
-						item.setAddress(new Address(officer.getAddress().getLocality(), 
+						o.setAddress(new AddressDetails(officer.getAddress().getLocality(), 
 								officer.getAddress().getPostalCode(), 
 								officer.getAddress().getPremises(), 
 								officer.getAddress().getAddressLine1(), 
 								officer.getAddress().getCountry()));
 					} else {
-						new Address();
+						o.setAddress(null);
 					}
 					o.setAppointedOn(officer.getAppointedOn());
 					o.setName(officer.getName());

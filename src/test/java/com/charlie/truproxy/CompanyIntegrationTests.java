@@ -145,7 +145,7 @@ class CompanyIntegrationTest {
 				.getResponseBody();
 
 		//System.out.println("------"+response.toString());
-		response = webTestClient.post()
+		CompanyResponse response2 = webTestClient.post()
 				.uri(uriBuilder -> uriBuilder.path("/api/company/search")
 						.queryParam("onlyActive", "true")
 						.build())
@@ -160,15 +160,16 @@ class CompanyIntegrationTest {
 		//System.out.println("+++++++"+response.toString());
 
 		// 🔹 Ensure response is not null
-		assertThat(response).isNotNull();
+		assertThat(response2).isNotNull();
 
 		// 🔹 Check total results count
-		assertThat(response.getTotalResults()).isEqualTo(1);
+		assertThat(response2.getTotalResults()).isEqualTo(1);
 
 		// 🔹 Check first company's details
-		assertThat(response.getItems()).isNotEmpty();
-		assertThat(response.getItems().get(0).getCompanyNumber()).isEqualTo("06500244");
-		assertThat(response.getItems().get(0).getTitle()).isEqualTo("BBC LIMITED");
+		assertThat(response2.getItems()).isNotEmpty();
+		assertThat(response2.getItems().get(0).getCompanyNumber()).isEqualTo("06500244");
+		assertThat(response2.getItems().get(0).getTitle()).isEqualTo("BBC LIMITED");
+		assertThat(response2.toString()).isEqualTo(response.toString());
 	}
 	@Test
 	void testSearchCompanyByNumber() {
